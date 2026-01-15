@@ -9,6 +9,12 @@ def is_identifier(s):
     # Must start with a letter or underscore
     # Followed by letters, digits, or underscores
     pattern = r"^[A-Za-z_][A-Za-z0-9_]*$"
+    
+#     ^         Start of string
+# [A-Za-z_]      First character must be a letter or underscore
+# [A-Za-z0-9_]*  Remaining characters can be letters, digits, or underscores
+# $              End of string
+
 
     # Check:
     # 1. Matches identifier pattern
@@ -18,7 +24,7 @@ def is_identifier(s):
     return False
 
 # List of test tokens taken from a source program
-tests = ["var1", "_temp", "2ndvar", "Hello_world", "a$s", "if", "for"]
+tests = ["var1", "_temp", "2ndvar", "Hello_world", "$s", "if", "for"]
 
 # Check each token and display result
 for test in tests:
