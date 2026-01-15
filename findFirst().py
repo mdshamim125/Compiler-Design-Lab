@@ -11,13 +11,21 @@ grammar = {
 # Dictionary to store FIRST sets
 FIRST = {}
 
+""" FIRST = {
+    "E": {"id", "("},
+    "T": {"id", "("},
+    "F": {"id", "("}
+}
+It will store the FIRST sets for each non-terminal symbol in the grammar like this.
+"""
+
 # Function to find FIRST of a symbol
 def first(symbol):
     # If FIRST already computed, return it
     if symbol in FIRST:
         return FIRST[symbol]
 
-    FIRST[symbol] = set()
+    FIRST[symbol] = set()   #Create an empty set and store it as the value for symbol in the dictionary FIRST
 
     # If symbol is a terminal
     if not symbol.isupper():
@@ -34,15 +42,16 @@ def first(symbol):
             i = 0
             while i < len(production):
                 # Handle non-terminals like E' or T'
+                #This ensures the parser recognizes E' as a single symbol, not E and ' separately.
                 if i + 1 < len(production) and production[i+1] == "'":
-                    sym = production[i:i+2]
+                    sym = production[i:i+2]  
                     i += 2
                 else:
                     sym = production[i]
                     i += 1
 
                 sym_first = first(sym)
-                FIRST[symbol].update(sym_first - {"ε"})
+                FIRST[symbol].update(sym_first - {"ε"}) #remove epsilon if present
 
                 # Stop if epsilon not found
                 if "ε" not in sym_first:
