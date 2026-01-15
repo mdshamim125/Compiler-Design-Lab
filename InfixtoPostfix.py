@@ -13,7 +13,7 @@ def infix_to_postfix(expression):
 
     for ch in expression:
         # If operand, add to postfix
-        if ch.isalnum():
+        if ch.isalnum():     # whether a character (or string) is alphanumeric.
             postfix += ch
 
         # If '(', push to stack
