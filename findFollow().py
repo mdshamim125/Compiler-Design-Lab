@@ -49,14 +49,17 @@ for nt in grammar:
 
 # ---------------- FOLLOW computation ----------------
 
-FOLLOW = {nt: set() for nt in grammar}
+FOLLOW = {nt: set() for nt in grammar} #Creates an empty FOLLOW set for every non-terminal
 
 # Start symbol
 start_symbol = "E"
 FOLLOW[start_symbol].add("$")
 
 def get_symbols(production):
-    """Split production into symbols (handles E', T', etc.)"""
+    """Split production into symbols (handles E', T', etc.) like 
+ "TE'" → ["T", "E'"]
+"*FT'" → ["*", "F", "T'"]
+"""
     symbols = []
     i = 0
     while i < len(production):
@@ -69,15 +72,23 @@ def get_symbols(production):
     return symbols
 
 changed = True
+
+""""FOLLOW sets depend on each other, so:
+We repeatedly apply FOLLOW rules,
+Stop only when no FOLLOW set changes"""
+
 while changed:
     changed = False
 
+# Scanning Each Production
     for A in grammar:
         for prod in grammar[A]:
+#You are analyzing productions of the form:
+# A → α
             if prod == "ε":
                 continue
 
-            symbols = get_symbols(prod)
+            symbols = get_symbols(prod)  # You only compute FOLLOW for non-terminals.
 
             for i, B in enumerate(symbols):
                 if B not in grammar:
